@@ -1,0 +1,14 @@
+
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: gerenciador_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      JWT_SECRET: mesa1234
