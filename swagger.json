@@ -1,0 +1,449 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Gerenciador de Mesas API",
+    "version": "1.0.0",
+    "description": "API para gerenciamento de mesas, atendentes, pedidos e produtos em um restaurante."
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login do atendente",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "senha": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "login",
+                  "senha"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido"
+          },
+          "400": {
+            "description": "Dados inv\u00e1lidos"
+          },
+          "401": {
+            "description": "Senha inv\u00e1lida"
+          },
+          "404": {
+            "description": "Atendente n\u00e3o encontrado"
+          }
+        }
+      }
+    },
+    "/api/atendentes": {
+      "get": {
+        "summary": "Listar atendentes",
+        "tags": [
+          "Atendentes"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de atendentes"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar atendente",
+        "tags": [
+          "Atendentes"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "login": {
+                    "type": "string"
+                  },
+                  "senha": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "login",
+                  "senha"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Criado com sucesso"
+          },
+          "400": {
+            "description": "Campos obrigat\u00f3rios ausentes"
+          }
+        }
+      }
+    },
+    "/api/atendentes/{id}": {
+      "put": {
+        "summary": "Atualizar atendente",
+        "tags": [
+          "Atendentes"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "login": {
+                    "type": "string"
+                  },
+                  "senha": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Atualizado com sucesso"
+          },
+          "404": {
+            "description": "N\u00e3o encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover atendente",
+        "tags": [
+          "Atendentes"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Removido com sucesso"
+          },
+          "404": {
+            "description": "N\u00e3o encontrado"
+          }
+        }
+      }
+    },
+    "/api/mesas": {
+      "get": {
+        "summary": "Listar mesas",
+        "tags": [
+          "Mesas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de mesas"
+          }
+        }
+      },
+      "post": {
+        "summary": "Abrir mesa",
+        "tags": [
+          "Mesas"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "numero": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "numero"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Mesa aberta"
+          },
+          "400": {
+            "description": "Mesa j\u00e1 est\u00e1 ocupada"
+          }
+        }
+      }
+    },
+    "/api/mesas/{id}/fechar": {
+      "post": {
+        "summary": "Fechar mesa",
+        "tags": [
+          "Mesas"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mesa fechada"
+          },
+          "404": {
+            "description": "N\u00e3o encontrada"
+          },
+          "400": {
+            "description": "Mesa j\u00e1 est\u00e1 livre"
+          }
+        }
+      }
+    },
+    "/api/produtos": {
+      "get": {
+        "summary": "Listar produtos",
+        "tags": [
+          "Produtos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de produtos"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar produto",
+        "tags": [
+          "Produtos"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "preco": {
+                    "type": "number"
+                  },
+                  "categoria": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "preco",
+                  "categoria"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Produto criado"
+          }
+        }
+      }
+    },
+    "/api/produtos/{id}": {
+      "put": {
+        "summary": "Atualizar produto",
+        "tags": [
+          "Produtos"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "preco": {
+                    "type": "number"
+                  },
+                  "categoria": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto atualizado"
+          },
+          "404": {
+            "description": "Produto n\u00e3o encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover produto",
+        "tags": [
+          "Produtos"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Removido"
+          },
+          "404": {
+            "description": "Produto n\u00e3o encontrado"
+          }
+        }
+      }
+    },
+    "/api/pedidos": {
+      "post": {
+        "summary": "Criar pedido",
+        "tags": [
+          "Pedidos"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mesaId": {
+                    "type": "integer"
+                  },
+                  "atendenteId": {
+                    "type": "integer"
+                  },
+                  "itens": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "produtoId": {
+                          "type": "integer"
+                        },
+                        "quantidade": {
+                          "type": "integer"
+                        },
+                        "obs": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "mesaId",
+                  "atendenteId",
+                  "itens"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pedido criado com itens"
+          }
+        }
+      }
+    },
+    "/api/pedidos/{mesaId}": {
+      "get": {
+        "summary": "Listar pedidos por mesa",
+        "tags": [
+          "Pedidos"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mesaId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de pedidos"
+          }
+        }
+      }
+    }
+  }
+}
